@@ -1,899 +1,128 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>NORTE — Agencia de Marketing Digital · Mérida</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
-
-  <style>
-    /* ─── RESET & ROOT ─────────────────────────────────────── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --ink:     #111009;
-      --ink2:    #1D1B14;
-      --sand:    #F0E9DC;
-      --cream:   #FAF7F2;
-      --copper:  #B85C2A;
-      --amber:   #C98B3A;
-      --dust:    #7A7265;
-      --rule:    rgba(255,255,255,0.07);
-      --ease:    cubic-bezier(.22,.68,0,1.2);
-    }
-    html { scroll-behavior: smooth; font-size: 16px; }
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--ink);
-      color: var(--cream);
-      overflow-x: hidden;
-      cursor: none;
-    }
-
-    /* ─── CUSTOM CURSOR ─────────────────────────────────────── */
-    .cursor {
-      position: fixed; width: 10px; height: 10px;
-      border-radius: 50%; background: var(--copper);
-      pointer-events: none; z-index: 9999;
-      transform: translate(-50%,-50%);
-      transition: transform .1s, width .25s var(--ease), height .25s var(--ease), opacity .25s;
-    }
-    .cursor-ring {
-      position: fixed; width: 36px; height: 36px;
-      border-radius: 50%; border: 1px solid rgba(185,92,42,.45);
-      pointer-events: none; z-index: 9998;
-      transform: translate(-50%,-50%);
-      transition: left .12s, top .12s, width .25s var(--ease), height .25s var(--ease);
-    }
-    body:hover .cursor { opacity: 1; }
-
-    /* ─── NAV ───────────────────────────────────────────────── */
-    nav {
-      position: fixed; inset: 0 0 auto 0; z-index: 500;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 1.4rem 3.5rem;
-      background: rgba(17,16,9,0); backdrop-filter: blur(0px);
-      transition: background .4s, backdrop-filter .4s, padding .4s;
-    }
-    nav.scrolled {
-      background: rgba(17,16,9,.88); backdrop-filter: blur(18px);
-      padding: 1rem 3.5rem;
-      border-bottom: 1px solid var(--rule);
-    }
-    .logo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.9rem; letter-spacing: .1em;
-      color: var(--cream); text-decoration: none;
-      display: flex; align-items: center; gap: .1em;
-    }
-    .logo .dot { color: var(--copper); font-size: 2.4rem; line-height: 0; margin-bottom: -4px; }
-    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
-    .nav-links a {
-      font-family: 'Syne', sans-serif; font-size: .72rem;
-      font-weight: 600; letter-spacing: .18em; text-transform: uppercase;
-      color: rgba(250,247,242,.55); text-decoration: none;
-      transition: color .2s;
-    }
-    .nav-links a:hover { color: var(--cream); }
-    .nav-btn {
-      font-family: 'Syne', sans-serif; font-size: .72rem; font-weight: 700;
-      letter-spacing: .15em; text-transform: uppercase;
-      color: var(--ink); background: var(--copper);
-      padding: .6rem 1.5rem; border: none; cursor: none;
-      transition: background .2s, transform .2s var(--ease);
-    }
-    .nav-btn:hover { background: var(--amber); transform: translateY(-1px); }
-    .ham { display: none; flex-direction: column; gap: 5px; cursor: none; }
-    .ham span { width: 22px; height: 1.5px; background: var(--cream); display: block; transition: .3s; }
-
-    /* ─── HERO ──────────────────────────────────────────────── */
-    .hero {
-      min-height: 100dvh;
-      display: grid; grid-template-columns: 52% 48%;
-      position: relative;
-    }
-
-    /* left panel */
-    .hero-l {
-      background: var(--ink2);
-      display: flex; flex-direction: column;
-      justify-content: flex-end;
-      padding: 9rem 4rem 5.5rem 4rem;
-      position: relative; overflow: hidden;
-    }
-    /* decorative number */
-    .hero-l::before {
-      content: '01';
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 22rem; line-height: 1; letter-spacing: -.02em;
-      color: rgba(255,255,255,.025);
-      position: absolute; top: -3rem; right: -2rem;
-      pointer-events: none; user-select: none;
-    }
-    .tag {
-      font-family: 'Syne', sans-serif; font-size: .68rem; font-weight: 700;
-      letter-spacing: .26em; text-transform: uppercase;
-      color: var(--copper); margin-bottom: 1.4rem;
-      opacity: 0; animation: rise .7s .1s forwards;
-    }
-    .hero-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(3.8rem, 6.5vw, 7.8rem);
-      line-height: .92; letter-spacing: .015em;
-      color: var(--cream);
-      opacity: 0; animation: rise .7s .2s forwards;
-    }
-    .hero-title .hi { color: var(--copper); }
-    .hero-title .outline {
-      -webkit-text-stroke: 1px var(--copper);
-      color: transparent;
-    }
-    .hero-sub {
-      margin-top: 2rem;
-      font-size: 1rem; line-height: 1.75; color: var(--dust);
-      max-width: 380px;
-      opacity: 0; animation: rise .7s .35s forwards;
-    }
-    .hero-actions {
-      display: flex; gap: 1rem; margin-top: 2.8rem; flex-wrap: wrap;
-      opacity: 0; animation: rise .7s .5s forwards;
-    }
-    .btn-fill {
-      font-family: 'Syne', sans-serif; font-size: .75rem; font-weight: 700;
-      letter-spacing: .12em; text-transform: uppercase;
-      background: var(--copper); color: var(--cream);
-      padding: .9rem 2.2rem; border: none; cursor: none;
-      text-decoration: none; display: inline-block;
-      transition: background .2s, transform .2s var(--ease);
-    }
-    .btn-fill:hover { background: var(--amber); transform: translateY(-2px); }
-    .btn-ghost {
-      font-family: 'Syne', sans-serif; font-size: .75rem; font-weight: 700;
-      letter-spacing: .12em; text-transform: uppercase;
-      background: transparent; color: var(--cream);
-      padding: .9rem 2.2rem; border: 1px solid rgba(250,247,242,.2);
-      cursor: none; text-decoration: none; display: inline-block;
-      transition: border-color .2s, background .2s;
-    }
-    .btn-ghost:hover { border-color: var(--copper); background: rgba(185,92,42,.08); }
-    @keyframes rise {
-      from { opacity: 0; transform: translateY(24px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    /* right panel — image */
-    .hero-r {
-      position: relative; overflow: hidden; background: var(--ink);
-    }
-    .hero-r img {
-      position: absolute; inset: 0;
-      width: 100%; height: 100%;
-      object-fit: cover; object-position: center top;
-      display: block;
-      filter: saturate(.7) brightness(.55);
-      transition: filter .5s;
-    }
-    .hero-r:hover img { filter: saturate(.9) brightness(.65); }
-    /* color tint overlay */
-    .hero-r::before {
-      content: '';
-      position: absolute; inset: 0; z-index: 1;
-      background: linear-gradient(160deg,
-        rgba(17,16,9,.3) 0%,
-        rgba(185,92,42,.22) 60%,
-        rgba(17,16,9,.7) 100%
-      );
-    }
-    /* vertical rule at join */
-    .hero-r::after {
-      content: '';
-      position: absolute; left: 0; top: 12%; bottom: 12%;
-      width: 1px; background: rgba(185,92,42,.35); z-index: 2;
-    }
-    .hero-r-content {
-      position: absolute; inset: 0; z-index: 3;
-      display: flex; flex-direction: column; justify-content: flex-end;
-      padding: 3.5rem;
-    }
-    /* stat cards */
-    .stats {
-      display: grid; grid-template-columns: 1fr 1fr; gap: .8rem;
-      opacity: 0; animation: rise .7s .65s forwards;
-    }
-    .stat {
-      background: rgba(250,247,242,.06);
-      border: 1px solid rgba(250,247,242,.1);
-      backdrop-filter: blur(10px);
-      padding: 1.2rem 1.1rem;
-      transition: background .25s, border-color .25s;
-    }
-    .stat:hover { background: rgba(185,92,42,.12); border-color: rgba(185,92,42,.35); }
-    .stat-n {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 2.5rem; letter-spacing: .04em; line-height: 1;
-      color: var(--amber);
-    }
-    .stat-l {
-      font-family: 'Syne', sans-serif; font-size: .62rem; font-weight: 700;
-      letter-spacing: .14em; text-transform: uppercase;
-      color: rgba(250,247,242,.45); margin-top: .25rem;
-    }
-    /* city tag */
-    .city-tag {
-      position: absolute; top: 3rem; right: 3rem; z-index: 4;
-      font-family: 'Syne', sans-serif; font-size: .6rem;
-      font-weight: 700; letter-spacing: .22em; text-transform: uppercase;
-      color: rgba(250,247,242,.3);
-      writing-mode: vertical-rl;
-      opacity: 0; animation: rise .7s .3s forwards;
-    }
-
-    /* ─── TICKER ─────────────────────────────────────────────── */
-    .ticker {
-      background: var(--copper);
-      padding: .7rem 0; overflow: hidden;
-      white-space: nowrap; border-top: 1px solid rgba(255,255,255,.1);
-    }
-    .ticker-inner {
-      display: inline-flex;
-      animation: ticker 30s linear infinite;
-    }
-    .ticker-item {
-      font-family: 'Syne', sans-serif; font-size: .68rem; font-weight: 700;
-      letter-spacing: .2em; text-transform: uppercase; color: rgba(255,255,255,.85);
-      padding: 0 2.5rem; display: inline-flex; align-items: center; gap: 2rem;
-    }
-    .ticker-item::after { content: '◆'; font-size: .45rem; opacity: .6; }
-    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-
-    /* ─── SECTION COMMONS ───────────────────────────────────── */
-    section { padding: 7rem 4rem; }
-    .s-label {
-      font-family: 'Syne', sans-serif; font-size: .68rem; font-weight: 700;
-      letter-spacing: .26em; text-transform: uppercase; color: var(--copper);
-      display: flex; align-items: center; gap: 1rem; margin-bottom: 1.2rem;
-    }
-    .s-label::before { content: ''; width: 2rem; height: 1px; background: var(--copper); }
-    .s-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(2.8rem, 4.5vw, 5rem);
-      line-height: .95; letter-spacing: .02em;
-    }
-
-    /* ─── ABOUT ──────────────────────────────────────────────── */
-    #nosotros {
-      background: var(--ink2);
-      display: grid; grid-template-columns: 1fr 1fr; gap: 5rem;
-      align-items: center;
-    }
-    #nosotros .s-title { color: var(--cream); }
-    #nosotros .body-text {
-      color: var(--dust); line-height: 1.8; margin-top: 1.5rem; font-size: .95rem;
-    }
-    .about-r { border-left: 1px solid var(--rule); padding-left: 4rem; }
-    .pillars { display: flex; flex-direction: column; gap: 1.8rem; margin-top: 2rem; }
-    .pillar { display: flex; gap: 1.2rem; align-items: flex-start; }
-    .pillar-num {
-      font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem;
-      color: rgba(185,92,42,.3); line-height: 1; flex-shrink: 0; width: 2.5rem;
-    }
-    .pillar-text h4 {
-      font-family: 'Syne', sans-serif; font-size: .88rem; font-weight: 700;
-      color: var(--cream); margin-bottom: .3rem;
-    }
-    .pillar-text p { font-size: .85rem; color: var(--dust); line-height: 1.6; }
-
-    /* ─── SERVICES ──────────────────────────────────────────── */
-    #servicios { background: var(--ink); }
-    #servicios .s-title { color: var(--cream); }
-    .services-intro {
-      display: flex; justify-content: space-between; align-items: flex-end;
-      margin-bottom: 3.5rem; gap: 2rem; flex-wrap: wrap;
-    }
-    .services-intro p { color: var(--dust); max-width: 340px; line-height: 1.7; font-size: .92rem; }
-    .grid-6 {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      border: 1px solid var(--rule);
-    }
-    .svc {
-      padding: 2.8rem 2.2rem;
-      border-right: 1px solid var(--rule);
-      border-bottom: 1px solid var(--rule);
-      position: relative; overflow: hidden;
-      transition: background .3s;
-    }
-    .svc:nth-child(3n) { border-right: none; }
-    .svc:nth-child(n+4) { border-bottom: none; }
-    .svc::after {
-      content: ''; position: absolute; bottom: 0; left: 0;
-      height: 2px; width: 0; background: var(--copper);
-      transition: width .45s var(--ease);
-    }
-    .svc:hover { background: rgba(255,255,255,.02); }
-    .svc:hover::after { width: 100%; }
-    .svc-n {
-      font-family: 'Bebas Neue', sans-serif; font-size: 3rem;
-      color: rgba(255,255,255,.05); line-height: 1; margin-bottom: .6rem;
-    }
-    .svc-ico {
-      font-size: 1.4rem; margin-bottom: 1rem;
-      display: flex; width: 42px; height: 42px;
-      border: 1px solid rgba(185,92,42,.3);
-      align-items: center; justify-content: center;
-    }
-    .svc h3 {
-      font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700;
-      color: var(--cream); margin-bottom: .6rem;
-    }
-    .svc p { font-size: .85rem; color: var(--dust); line-height: 1.65; }
-
-    /* ─── PROCESS ───────────────────────────────────────────── */
-    #proceso {
-      background: var(--sand); color: var(--ink);
-    }
-    #proceso .s-label { color: var(--copper); }
-    #proceso .s-label::before { background: var(--copper); }
-    #proceso .s-title { color: var(--ink); }
-    .process-grid {
-      display: grid; grid-template-columns: repeat(4,1fr);
-      gap: 0; margin-top: 3.5rem;
-      border-top: 1px solid rgba(17,16,9,.12);
-    }
-    .proc-step {
-      padding: 2.5rem 2rem 2.5rem 0;
-      border-right: 1px solid rgba(17,16,9,.1);
-      position: relative;
-      transition: background .25s;
-    }
-    .proc-step:last-child { border-right: none; padding-right: 0; }
-    .proc-step:not(:first-child) { padding-left: 2rem; }
-    .proc-step::before {
-      content: '';
-      position: absolute; top: -1px; left: 0;
-      width: 0; height: 2px;
-      background: var(--copper);
-      transition: width .45s var(--ease);
-    }
-    .proc-step:hover::before { width: 100%; }
-    .proc-n {
-      font-family: 'Bebas Neue', sans-serif; font-size: 4.5rem;
-      color: rgba(17,16,9,.07); line-height: 1; margin-bottom: .4rem;
-    }
-    .proc-step h4 {
-      font-family: 'Syne', sans-serif; font-size: .95rem; font-weight: 700;
-      color: var(--ink); margin-bottom: .5rem;
-    }
-    .proc-step p { font-size: .85rem; color: #6B6356; line-height: 1.65; }
-
-    /* ─── METRICS ───────────────────────────────────────────── */
-    #resultados { background: var(--copper); padding: 5rem 4rem; }
-    #resultados .s-label { color: rgba(255,255,255,.5); }
-    #resultados .s-label::before { background: rgba(255,255,255,.4); }
-    #resultados .s-title { color: #fff; }
-    .metrics-row {
-      display: grid; grid-template-columns: repeat(4,1fr);
-      gap: 1px; background: rgba(255,255,255,.15);
-      border: 1px solid rgba(255,255,255,.15);
-      margin-top: 3rem;
-    }
-    .metric {
-      background: var(--copper); text-align: center;
-      padding: 3rem 1.5rem;
-      transition: background .25s;
-    }
-    .metric:hover { background: rgba(0,0,0,.1); }
-    .metric-n {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 4.2rem; color: #fff; line-height: 1;
-    }
-    .metric-l {
-      font-family: 'Syne', sans-serif; font-size: .65rem; font-weight: 700;
-      letter-spacing: .18em; text-transform: uppercase;
-      color: rgba(255,255,255,.55); margin-top: .5rem;
-    }
-
-    /* ─── CONTACT ───────────────────────────────────────────── */
-    #contacto { background: var(--ink2); }
-    .contact-grid {
-      display: grid; grid-template-columns: 1fr 1.6fr; gap: 6rem; align-items: start;
-    }
-    .contact-info .s-title { color: var(--cream); }
-    .contact-info .body-text { color: var(--dust); margin-top: 1.5rem; line-height: 1.8; font-size: .92rem; }
-    .cinfo-items { margin-top: 2.5rem; display: flex; flex-direction: column; gap: 1.2rem; }
-    .cinfo-item { display: flex; gap: 1rem; align-items: flex-start; }
-    .cinfo-ico {
-      width: 34px; height: 34px; border: 1px solid rgba(185,92,42,.35);
-      display: flex; align-items: center; justify-content: center;
-      font-size: .9rem; flex-shrink: 0; color: var(--copper);
-    }
-    .cinfo-txt { font-size: .87rem; color: var(--dust); line-height: 1.55; }
-    .cinfo-txt strong {
-      font-family: 'Syne', sans-serif; font-size: .65rem; font-weight: 700;
-      letter-spacing: .15em; text-transform: uppercase;
-      color: rgba(250,247,242,.35); display: block; margin-bottom: .15rem;
-    }
-
-    /* Form */
-    .cform { display: flex; flex-direction: column; gap: 1.1rem; }
-    .frow { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
-    .fg { display: flex; flex-direction: column; gap: .45rem; }
-    .fg label {
-      font-family: 'Syne', sans-serif; font-size: .62rem; font-weight: 700;
-      letter-spacing: .18em; text-transform: uppercase;
-      color: rgba(250,247,242,.3);
-    }
-    .fg input, .fg select, .fg textarea {
-      background: rgba(255,255,255,.04);
-      border: 1px solid rgba(255,255,255,.08);
-      color: var(--cream); padding: .85rem 1rem;
-      font-family: 'DM Sans', sans-serif; font-size: .92rem;
-      outline: none; resize: none; width: 100%;
-      transition: border-color .25s, background .25s;
-      cursor: none;
-    }
-    .fg input:focus, .fg select:focus, .fg textarea:focus {
-      border-color: var(--copper); background: rgba(185,92,42,.05);
-    }
-    .fg select option { background: #1a1a14; }
-    .fg input::placeholder, .fg textarea::placeholder { color: rgba(250,247,242,.18); }
-    .btn-send {
-      font-family: 'Syne', sans-serif; font-size: .72rem; font-weight: 700;
-      letter-spacing: .14em; text-transform: uppercase;
-      background: var(--copper); color: #fff;
-      padding: 1rem 2.5rem; border: none; cursor: none;
-      align-self: flex-start; margin-top: .4rem;
-      transition: background .2s, transform .2s var(--ease);
-    }
-    .btn-send:hover { background: var(--amber); transform: translateY(-2px); }
-    .form-ok {
-      display: none; background: rgba(185,92,42,.12);
-      border: 1px solid rgba(185,92,42,.3);
-      padding: 1rem 1.2rem;
-      font-family: 'Syne', sans-serif; font-size: .82rem;
-      color: var(--cream); letter-spacing: .05em;
-    }
-
-    /* ─── FOOTER ─────────────────────────────────────────────── */
-    footer { background: #0B0A06; padding: 4rem 4rem 2.5rem; }
-    .foot-top {
-      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem;
-      padding-bottom: 3rem; border-bottom: 1px solid var(--rule);
-    }
-    .foot-brand .logo { margin-bottom: 1.2rem; }
-    .foot-brand p { font-size: .85rem; color: rgba(250,247,242,.3); line-height: 1.75; max-width: 220px; }
-    .foot-col h5 {
-      font-family: 'Syne', sans-serif; font-size: .62rem; font-weight: 700;
-      letter-spacing: .22em; text-transform: uppercase;
-      color: rgba(250,247,242,.25); margin-bottom: 1.2rem;
-    }
-    .foot-col ul { list-style: none; display: flex; flex-direction: column; gap: .65rem; }
-    .foot-col a { font-size: .85rem; color: rgba(250,247,242,.4); text-decoration: none; transition: color .2s; }
-    .foot-col a:hover { color: var(--copper); }
-    .foot-bottom {
-      display: flex; justify-content: space-between; align-items: center;
-      flex-wrap: wrap; gap: 1rem; padding-top: 2rem;
-    }
-    .foot-bottom p { font-size: .75rem; color: rgba(250,247,242,.18); }
-    .socials { display: flex; gap: .6rem; }
-    .socials a {
-      width: 34px; height: 34px;
-      border: 1px solid rgba(255,255,255,.08);
-      display: flex; align-items: center; justify-content: center;
-      font-family: 'Syne', sans-serif; font-size: .62rem; font-weight: 700;
-      color: rgba(250,247,242,.3); text-decoration: none;
-      transition: all .2s;
-    }
-    .socials a:hover { border-color: var(--copper); color: var(--copper); }
-
-    /* ─── SCROLL REVEAL ──────────────────────────────────────── */
-    .reveal {
-      opacity: 0; transform: translateY(28px);
-      transition: opacity .7s var(--ease), transform .7s var(--ease);
-    }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-
-    /* ─── RESPONSIVE ─────────────────────────────────────────── */
-    @media (max-width: 1100px) {
-      .hero { grid-template-columns: 1fr; }
-      .hero-l { min-height: 75vh; }
-      .hero-r { min-height: 55vw; }
-      #nosotros { grid-template-columns: 1fr; gap: 3rem; }
-      .about-r { border-left: none; padding-left: 0; border-top: 1px solid var(--rule); padding-top: 3rem; }
-      .grid-6 { grid-template-columns: 1fr 1fr; }
-      .svc:nth-child(3n) { border-right: 1px solid var(--rule); }
-      .svc:nth-child(2n) { border-right: none; }
-      .process-grid { grid-template-columns: 1fr 1fr; }
-      .proc-step:nth-child(2) { border-right: none; }
-      .proc-step:nth-child(3) { border-top: 1px solid rgba(17,16,9,.1); }
-      .metrics-row { grid-template-columns: 1fr 1fr; }
-      .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
-      .foot-top { grid-template-columns: 1fr 1fr; }
-      nav { padding: 1.2rem 2rem; }
-      nav.scrolled { padding: .9rem 2rem; }
-      section { padding: 5.5rem 2.5rem; }
-      #resultados { padding: 4.5rem 2.5rem; }
-    }
-    @media (max-width: 768px) {
-      body { cursor: auto; }
-      .cursor, .cursor-ring { display: none; }
-      .nav-links, .nav-btn { display: none; }
-      .ham { display: flex; }
-      .nav-links.open {
-        display: flex; flex-direction: column;
-        position: fixed; top: 56px; left: 0; right: 0;
-        background: rgba(17,16,9,.97); backdrop-filter: blur(20px);
-        padding: 2rem; gap: 1.5rem;
-        border-bottom: 1px solid var(--rule);
-      }
-      .grid-6 { grid-template-columns: 1fr; }
-      .svc { border-right: none !important; }
-      .process-grid { grid-template-columns: 1fr; }
-      .proc-step { border-right: none; border-bottom: 1px solid rgba(17,16,9,.1); padding: 2rem 0; }
-      .proc-step:last-child { border-bottom: none; }
-      .proc-step:not(:first-child) { padding-left: 0; }
-      .metrics-row { grid-template-columns: 1fr 1fr; }
-      .frow { grid-template-columns: 1fr; }
-      .foot-top { grid-template-columns: 1fr; gap: 2rem; }
-      section { padding: 4rem 1.5rem; }
-      #resultados { padding: 3.5rem 1.5rem; }
-      footer { padding: 3rem 1.5rem 2rem; }
-      nav { padding: 1rem 1.5rem; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuentas Claras | Agencia de Marketing Digital</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+        .glass { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(0,0,0,0.1); }
+        .apple-card { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .apple-card:hover { transform: scale(1.02); }
+        .tab-active { border-bottom: 2px solid #000; color: #000; }
+        .hidden-content { display: none; }
+    </style>
 </head>
-<body>
+<body class="bg-[#f5f5f7] text-[#1d1d1f]">
 
-<!-- Custom cursor -->
-<div class="cursor" id="cur"></div>
-<div class="cursor-ring" id="curRing"></div>
-
-<!-- ─── NAV ─────────────────────────────────────────────── -->
-<nav id="nav">
-  <a href="#" class="logo">NOR<span class="dot">.</span>TE</a>
-  <ul class="nav-links" id="navLinks">
-    <li><a href="#nosotros">Nosotros</a></li>
-    <li><a href="#servicios">Servicios</a></li>
-    <li><a href="#proceso">Proceso</a></li>
-    <li><a href="#resultados">Resultados</a></li>
-    <li><a href="#contacto">Contacto</a></li>
-  </ul>
-  <button class="nav-btn" onclick="scrollTo('#contacto')">Hablemos →</button>
-  <div class="ham" id="ham" onclick="toggleNav()">
-    <span></span><span></span><span></span>
-  </div>
-</nav>
-
-<!-- ─── HERO ─────────────────────────────────────────────── -->
-<section class="hero" id="inicio">
-  <div class="hero-l">
-    <p class="tag">Agencia de Marketing Digital — Mérida, Yucatán</p>
-    <h1 class="hero-title">
-      Llevamos<br>
-      tu marca<br>
-      al <span class="hi">norte</span><br>
-      <span class="outline">digital</span>
-    </h1>
-    <p class="hero-sub">Estrategia, creatividad y datos reales. Transformamos negocios locales en marcas que dominan el mundo digital.</p>
-    <div class="hero-actions">
-      <a href="#contacto" class="btn-fill">Iniciar proyecto</a>
-      <a href="#servicios" class="btn-ghost">Ver servicios</a>
-    </div>
-  </div>
-  <div class="hero-r">
-    <img src="/img/marketingDigital-1536x1024.jpg" alt="Marketing Digital en Mérida"/>
-    <span class="city-tag">Mérida · Yucatán · MX</span>
-    <div class="hero-r-content">
-      <div class="stats">
-        <div class="stat"><div class="stat-n">3.8×</div><div class="stat-l">ROI promedio</div></div>
-        <div class="stat"><div class="stat-n">+240%</div><div class="stat-l">Crecimiento digital</div></div>
-        <div class="stat"><div class="stat-n">340+</div><div class="stat-l">Proyectos exitosos</div></div>
-        <div class="stat"><div class="stat-n">8 años</div><div class="stat-l">De experiencia</div></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ─── TICKER ────────────────────────────────────────────── -->
-<div class="ticker">
-  <div class="ticker-inner">
-    <span class="ticker-item">Redes Sociales</span>
-    <span class="ticker-item">SEO Avanzado</span>
-    <span class="ticker-item">Publicidad Pagada</span>
-    <span class="ticker-item">Diseño Web</span>
-    <span class="ticker-item">Email Marketing</span>
-    <span class="ticker-item">Analítica y Data</span>
-    <span class="ticker-item">Branding</span>
-    <span class="ticker-item">Content Marketing</span>
-    <span class="ticker-item">Redes Sociales</span>
-    <span class="ticker-item">SEO Avanzado</span>
-    <span class="ticker-item">Publicidad Pagada</span>
-    <span class="ticker-item">Diseño Web</span>
-    <span class="ticker-item">Email Marketing</span>
-    <span class="ticker-item">Analítica y Data</span>
-    <span class="ticker-item">Branding</span>
-    <span class="ticker-item">Content Marketing</span>
-  </div>
-</div>
-
-<!-- ─── NOSOTROS ──────────────────────────────────────────── -->
-<section id="nosotros">
-  <div>
-    <p class="s-label reveal">Sobre nosotros</p>
-    <h2 class="s-title reveal">Somos la agencia que<br>hace crecer tu negocio</h2>
-    <p class="body-text reveal">En NORTE creemos que el marketing digital no es magia — es metodología. Nacimos en Mérida con una visión: llevar a las empresas locales a competir globalmente sin perder su esencia.</p>
-  </div>
-  <div class="about-r">
-    <div class="pillars">
-      <div class="pillar reveal">
-        <div class="pillar-num">01</div>
-        <div class="pillar-text">
-          <h4>Estrategia basada en datos</h4>
-          <p>Cada decisión está respaldada por métricas reales. Nada de intuición sin fundamento.</p>
+    <nav class="glass fixed w-full z-50 top-0">
+        <div class="max-w-5xl mx-auto px-6 h-12 flex items-center justify-between text-xs font-medium tracking-tight">
+            <div class="font-bold text-lg tracking-tighter">Cuentas Claras</div>
+            <div class="flex space-x-8">
+                <button onclick="showPage('pepe_y_tono')" id="btn-pepe" class="hover:text-blue-600 transition tab-active">Para Mi Negocio</button>
+                <button onclick="showPage('pyme')" id="btn-pyme" class="hover:text-blue-600 transition text-gray-500">Soluciones PyME</button>
+                <button onclick="showPage('profesional')" id="btn-profesional" class="hover:text-blue-600 transition text-gray-500">Estrategia Pro</button>
+            </div>
         </div>
-      </div>
-      <div class="pillar reveal">
-        <div class="pillar-num">02</div>
-        <div class="pillar-text">
-          <h4>Creatividad con propósito</h4>
-          <p>Diseño y contenido que conecta emocionalmente y convierte audiencias en clientes.</p>
+    </nav>
+
+    <main class="pt-24 pb-20">
+
+        <section id="pepe_y_tono" class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h1 class="text-5xl md:text-7xl font-extrabold tracking-tighter mb-6">¡Échele ganas a su negocio!</h1>
+                <p class="text-xl md:text-2xl text-gray-500 max-w-2xl mx-auto">Como tú, sabemos lo que es trabajar duro. Hacemos que tu esfuerzo se note en más ventas reales.</p>
+                <button class="mt-8 bg-orange-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-orange-700 transition">¡Quiero vender más!</button>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="apple-card bg-white p-10 rounded-3xl shadow-sm border border-orange-100">
+                    <span class="text-orange-600 font-bold uppercase tracking-widest text-xs">El Imán de Clientes</span>
+                    <h3 class="text-3xl font-bold mt-4">Ponemos tu negocio en el celular de tus vecinos.</h3>
+                    <p class="text-gray-500 mt-4">Publicidad sencilla en Facebook para que la gente de tu zona te llame a ti primero.</p>
+                </div>
+                <div class="apple-card bg-white p-10 rounded-3xl shadow-sm border border-orange-100">
+                    <span class="text-orange-600 font-bold uppercase tracking-widest text-xs">La Libreta Digital</span>
+                    <h3 class="text-3xl font-bold mt-4">Cuentas claras: te decimos cuánto ganaste.</h3>
+                    <p class="text-gray-500 mt-4">Sin gráficas locas. Un reporte directo a tu WhatsApp para que duermas tranquilo.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="pyme" class="max-w-6xl mx-auto px-6 hidden-content">
+            <div class="text-center mb-16">
+                <h1 class="text-5xl md:text-7xl font-extrabold tracking-tighter mb-6">Escala tu empresa.</h1>
+                <p class="text-xl md:text-2xl text-gray-500 max-w-2xl mx-auto">Soluciones de marketing diseñadas para dueños de negocio que buscan un retorno real sobre su inversión.</p>
+                <button class="mt-8 bg-blue-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-blue-700 transition">Consultar Planes</button>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="apple-card bg-white p-10 rounded-3xl shadow-sm border border-blue-500">
+                    <span class="text-blue-600 font-bold uppercase tracking-widest text-xs">Generación de Prospectos</span>
+                    <h3 class="text-3xl font-bold mt-4">Llenamos tu embudo de ventas.</h3>
+                    <p class="text-gray-500 mt-4">Campañas estratégicas de Google y Meta Ads para captar clientes calificados todos los días.</p>
+                </div>
+                <div class="apple-card bg-white p-10 rounded-3xl shadow-sm border border-blue-100">
+                    <span class="text-blue-600 font-bold uppercase tracking-widest text-xs">Dashboards de Resultados</span>
+                    <h3 class="text-3xl font-bold mt-4">Decisiones basadas en datos.</h3>
+                    <p class="text-gray-500 mt-4">Monitoreo en tiempo real de tu costo por cliente para optimizar cada peso invertido.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="profesional" class="max-w-6xl mx-auto px-6 hidden-content">
+            <div class="text-center mb-16">
+                <h1 class="text-5xl md:text-7xl font-extrabold tracking-tighter mb-6 text-black">Data-Driven Performance.</h1>
+                <p class="text-xl md:text-2xl text-gray-400 max-w-2xl mx-auto">Implementación de CAPI, atribución avanzada y optimización técnica de embudos de conversión.</p>
+                <button class="mt-8 bg-black text-white px-8 py-3 rounded-full font-semibold hover:bg-gray-800 transition">Ver Stack Técnico</button>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="apple-card bg-black text-white p-10 rounded-3xl shadow-xl">
+                    <span class="text-gray-400 font-bold uppercase tracking-widest text-xs">Full-Stack Performance</span>
+                    <h3 class="text-3xl font-bold mt-4">Ecosistemas de Medición Server-Side.</h3>
+                    <p class="text-gray-400 mt-4">Configuración de Meta CAPI, GTM Server y GA4 para superar las barreras de privacidad modernas.</p>
+                </div>
+                <div class="apple-card bg-gray-900 text-white p-10 rounded-3xl shadow-xl">
+                    <span class="text-gray-400 font-bold uppercase tracking-widest text-xs">Business Intelligence</span>
+                    <h3 class="text-3xl font-bold mt-4">Atribución y Modelado con BigQuery.</h3>
+                    <p class="text-gray-400 mt-4">Visualización compleja en Looker Studio integrando fuentes de datos offline y online.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-white border-t border-gray-200 py-12">
+        <div class="max-w-5xl mx-auto px-6 text-center text-gray-500 text-sm">
+            <p>© 2026 Cuentas Claras. Mérida, Yucatán. Marketing Digital con Ingeniería.</p>
         </div>
-      </div>
-      <div class="pillar reveal">
-        <div class="pillar-num">03</div>
-        <div class="pillar-text">
-          <h4>Transparencia total</h4>
-          <p>Reportes claros, comunicación directa y objetivos medibles desde el día uno.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+    </footer>
 
-<!-- ─── SERVICIOS ─────────────────────────────────────────── -->
-<section id="servicios">
-  <div class="services-intro">
-    <div>
-      <p class="s-label reveal">Lo que hacemos</p>
-      <h2 class="s-title reveal">Servicios</h2>
-    </div>
-    <p class="reveal">Soluciones integrales de marketing digital diseñadas para resultados reales, no vanity metrics.</p>
-  </div>
-  <div class="grid-6">
-    <div class="svc reveal">
-      <div class="svc-n">01</div>
-      <div class="svc-ico">📱</div>
-      <h3>Redes Sociales</h3>
-      <p>Gestión estratégica de Instagram, Facebook, TikTok y LinkedIn. Comunidades que convierten.</p>
-    </div>
-    <div class="svc reveal">
-      <div class="svc-n">02</div>
-      <div class="svc-ico">🎯</div>
-      <h3>Publicidad Digital</h3>
-      <p>Campañas en Google Ads y Meta Ads con segmentación precisa para maximizar cada peso invertido.</p>
-    </div>
-    <div class="svc reveal">
-      <div class="svc-n">03</div>
-      <div class="svc-ico">🔍</div>
-      <h3>SEO & Contenido</h3>
-      <p>Posicionamiento orgánico sostenible. Tu marca en el top de los resultados de búsqueda.</p>
-    </div>
-    <div class="svc reveal">
-      <div class="svc-n">04</div>
-      <div class="svc-ico">💻</div>
-      <h3>Diseño Web</h3>
-      <p>Sitios y landing pages de alto impacto. Orientados a conversión, velocidad y experiencia.</p>
-    </div>
-    <div class="svc reveal">
-      <div class="svc-n">05</div>
-      <div class="svc-ico">📧</div>
-      <h3>Email Marketing</h3>
-      <p>Automatizaciones inteligentes y newsletters de alto rendimiento. El canal más rentable.</p>
-    </div>
-    <div class="svc reveal">
-      <div class="svc-n">06</div>
-      <div class="svc-ico">📊</div>
-      <h3>Analítica & Data</h3>
-      <p>Dashboards personalizados y reportes claros. Toma decisiones con datos, no suposiciones.</p>
-    </div>
-  </div>
-</section>
+    <script>
+        function showPage(pageId) {
+            // Ocultar todas las secciones
+            document.getElementById('pepe_y_tono').classList.add('hidden-content');
+            document.getElementById('pyme').classList.add('hidden-content');
+            document.getElementById('profesional').classList.add('hidden-content');
 
-<!-- ─── PROCESO ───────────────────────────────────────────── -->
-<section id="proceso">
-  <p class="s-label reveal">Cómo trabajamos</p>
-  <h2 class="s-title reveal">Nuestro proceso</h2>
-  <div class="process-grid">
-    <div class="proc-step reveal">
-      <div class="proc-n">01</div>
-      <h4>Diagnóstico</h4>
-      <p>Analizamos tu marca, competencia y audiencia para entender dónde estás y a dónde quieres llegar.</p>
-    </div>
-    <div class="proc-step reveal">
-      <div class="proc-n">02</div>
-      <h4>Estrategia</h4>
-      <p>Un plan personalizado con objetivos, canales, presupuesto y KPIs claros alineados a tu negocio.</p>
-    </div>
-    <div class="proc-step reveal">
-      <div class="proc-n">03</div>
-      <h4>Ejecución</h4>
-      <p>Campañas con creatividad de alto impacto y procesos ágiles para resultados tangibles y rápidos.</p>
-    </div>
-    <div class="proc-step reveal">
-      <div class="proc-n">04</div>
-      <h4>Optimización</h4>
-      <p>Medimos, aprendemos y mejoramos continuamente. Cada semana es una oportunidad de crecer más.</p>
-    </div>
-  </div>
-</section>
+            // Mostrar la seleccionada
+            document.getElementById(pageId).classList.remove('hidden-content');
 
-<!-- ─── RESULTADOS ────────────────────────────────────────── -->
-<section id="resultados">
-  <p class="s-label reveal">Nuestros números</p>
-  <h2 class="s-title reveal">Resultados que<br>hablan por sí solos</h2>
-  <div class="metrics-row">
-    <div class="metric reveal"><div class="metric-n">+320%</div><div class="metric-l">Aumento en tráfico orgánico</div></div>
-    <div class="metric reveal"><div class="metric-n">3.8×</div><div class="metric-l">Retorno sobre inversión</div></div>
-    <div class="metric reveal"><div class="metric-n">2M+</div><div class="metric-l">Seguidores gestionados</div></div>
-    <div class="metric reveal"><div class="metric-n">−42%</div><div class="metric-l">Costo por adquisición</div></div>
-  </div>
-</section>
+            // Actualizar estilo de botones del menú
+            const buttons = ['btn-pepe', 'btn-pyme', 'btn-profesional'];
+            buttons.forEach(id => {
+                const btn = document.getElementById(id);
+                btn.classList.remove('tab-active', 'text-black');
+                btn.classList.add('text-gray-500');
+            });
 
-<!-- ─── CONTACTO ──────────────────────────────────────────── -->
-<section id="contacto">
-  <div class="contact-grid">
-    <div class="contact-info">
-      <p class="s-label reveal">Hablemos</p>
-      <h2 class="s-title reveal">¿Listo para llevar<br>tu marca al norte?</h2>
-      <p class="body-text reveal">Cuéntanos tu proyecto. Respondemos en menos de 24 horas con una propuesta preliminar sin costo.</p>
-      <div class="cinfo-items">
-        <div class="cinfo-item reveal">
-          <div class="cinfo-ico">📍</div>
-          <div class="cinfo-txt"><strong>Ubicación</strong>Mérida, Yucatán, México</div>
-        </div>
-        <div class="cinfo-item reveal">
-          <div class="cinfo-ico">✉️</div>
-          <div class="cinfo-txt"><strong>Email</strong>hola@norteagencia.mx</div>
-        </div>
-        <div class="cinfo-item reveal">
-          <div class="cinfo-ico">📞</div>
-          <div class="cinfo-txt"><strong>Teléfono</strong>+52 (999) 123 4567</div>
-        </div>
-      </div>
-    </div>
-
-    <form class="cform" onsubmit="handleForm(event)">
-      <div class="frow">
-        <div class="fg"><label>Nombre</label><input type="text" placeholder="Tu nombre completo" required/></div>
-        <div class="fg"><label>Empresa</label><input type="text" placeholder="Nombre de tu empresa"/></div>
-      </div>
-      <div class="frow">
-        <div class="fg"><label>Email</label><input type="email" placeholder="tu@correo.com" required/></div>
-        <div class="fg"><label>Teléfono</label><input type="tel" placeholder="+52 999 000 0000"/></div>
-      </div>
-      <div class="fg">
-        <label>Servicio de interés</label>
-        <select>
-          <option value="">Selecciona un servicio…</option>
-          <option>Redes Sociales</option>
-          <option>Publicidad Digital</option>
-          <option>SEO &amp; Contenido</option>
-          <option>Diseño Web</option>
-          <option>Email Marketing</option>
-          <option>Analítica &amp; Data</option>
-          <option>Estrategia integral</option>
-        </select>
-      </div>
-      <div class="fg">
-        <label>Mensaje</label>
-        <textarea rows="5" placeholder="Cuéntanos sobre tu proyecto, objetivos y presupuesto aproximado…"></textarea>
-      </div>
-      <button type="submit" class="btn-send">Enviar mensaje →</button>
-      <div class="form-ok" id="formOk">◆ &nbsp; ¡Gracias! Te contactaremos en menos de 24 horas.</div>
-    </form>
-  </div>
-</section>
-
-<!-- ─── FOOTER ────────────────────────────────────────────── -->
-<footer>
-  <div class="foot-top">
-    <div class="foot-brand">
-      <a href="#" class="logo">NOR<span class="dot">.</span>TE</a>
-      <p>Agencia de marketing digital con base en Mérida, Yucatán. Llevamos tu marca al norte del mapa digital.</p>
-    </div>
-    <div class="foot-col">
-      <h5>Servicios</h5>
-      <ul>
-        <li><a href="#servicios">Redes Sociales</a></li>
-        <li><a href="#servicios">Publicidad Digital</a></li>
-        <li><a href="#servicios">SEO &amp; Contenido</a></li>
-        <li><a href="#servicios">Diseño Web</a></li>
-        <li><a href="#servicios">Email Marketing</a></li>
-      </ul>
-    </div>
-    <div class="foot-col">
-      <h5>Empresa</h5>
-      <ul>
-        <li><a href="#nosotros">Nosotros</a></li>
-        <li><a href="#proceso">Proceso</a></li>
-        <li><a href="#resultados">Resultados</a></li>
-        <li><a href="#contacto">Contacto</a></li>
-      </ul>
-    </div>
-    <div class="foot-col">
-      <h5>Contacto</h5>
-      <ul>
-        <li><a href="mailto:hola@norteagencia.mx">hola@norteagencia.mx</a></li>
-        <li><a href="tel:+529991234567">+52 (999) 123 4567</a></li>
-        <li><a href="#">Mérida, Yucatán</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="foot-bottom">
-    <p>© 2025 NORTE Agencia Digital. Todos los derechos reservados.</p>
-    <div class="socials">
-      <a href="#">IG</a><a href="#">FB</a><a href="#">IN</a><a href="#">TK</a>
-    </div>
-  </div>
-</footer>
-
-<script>
-  /* Cursor */
-  const cur = document.getElementById('cur');
-  const ring = document.getElementById('curRing');
-  document.addEventListener('mousemove', e => {
-    cur.style.left = e.clientX + 'px';
-    cur.style.top  = e.clientY + 'px';
-    ring.style.left = e.clientX + 'px';
-    ring.style.top  = e.clientY + 'px';
-  });
-  document.querySelectorAll('a,button,.svc,.stat,.metric').forEach(el => {
-    el.addEventListener('mouseenter', () => {
-      cur.style.width = '18px'; cur.style.height = '18px';
-      ring.style.width = '52px'; ring.style.height = '52px';
-    });
-    el.addEventListener('mouseleave', () => {
-      cur.style.width = '10px'; cur.style.height = '10px';
-      ring.style.width = '36px'; ring.style.height = '36px';
-    });
-  });
-
-  /* Nav scroll */
-  const nav = document.getElementById('nav');
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 60);
-  });
-
-  /* Mobile nav */
-  function toggleNav() {
-    document.getElementById('navLinks').classList.toggle('open');
-  }
-
-  /* Smooth scroll helper */
-  function scrollTo(hash) {
-    document.querySelector(hash).scrollIntoView({behavior:'smooth'});
-  }
-
-  /* Form */
-  function handleForm(e) {
-    e.preventDefault();
-    const ok = document.getElementById('formOk');
-    ok.style.display = 'block';
-    e.target.reset();
-    setTimeout(() => ok.style.display = 'none', 7000);
-  }
-
-  /* Scroll reveal */
-  const io = new IntersectionObserver(entries => {
-    entries.forEach((en, i) => {
-      if (en.isIntersecting) {
-        setTimeout(() => en.target.classList.add('visible'), i * 80);
-        io.unobserve(en.target);
-      }
-    });
-  }, { threshold: 0.12 });
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-</script>
+            const activeBtnId = 'btn-' + (pageId === 'pepe_y_tono' ? 'pepe' : pageId);
+            document.getElementById(activeBtnId).classList.add('tab-active', 'text-black');
+            document.getElementById(activeBtnId).classList.remove('text-gray-500');
+        }
+    </script>
 </body>
 </html>
